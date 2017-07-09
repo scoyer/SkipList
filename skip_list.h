@@ -1,6 +1,5 @@
 #include "skip_list_node.h"
 #include <iostream>
-#include <stack>
 #include <cstdlib>
 
 class skip_list {

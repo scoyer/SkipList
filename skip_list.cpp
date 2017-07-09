@@ -37,32 +37,34 @@ skip_list_node* skip_list::insert_node(skip_list_node* node, int _val, skip_list
 
 void skip_list::insert(int _val) {
 	skip_list_node* cur = _head;
-	int t_level = _level;
-	std::stack<skip_list_node*> _stack;
-	
+	skip_list_node** _stack = new skip_list_node*[_level];
+	int t_level = _level, p = 0;
+
 	for (;;) {
 		if (!cur->_next || _val < cur->_next->_val) {
 			if (!--t_level) {
 				break;
 			}
 			else {
-				_stack.push(cur);
+				_stack[p++] = cur;
 				cur = cur->_down;
 			}
 		}
 		else {
 			cur = cur->_next;
-			if (_val == cur->_val) return ;
+			if (_val == cur->_val) {
+				delete [] _stack;
+				return ;
+			}
 		}
 	}
 	
 	skip_list_node* _down = insert_node(cur, _val);
-	int max_loop = _stack.size() + 1;
+	int max_loop = p + 1;
 	while (max_loop--) {
 		if (rand() % 2 == 0) break;
 		if (max_loop) {
-			_down = insert_node(_stack.top(), _val, _down);
-			_stack.pop();
+			_down = insert_node(_stack[--p], _val, _down);
 		}
 		else if (_size){
 			_level++;
@@ -73,6 +75,7 @@ void skip_list::insert(int _val) {
 		}
 	}
 	_size++;
+	delete [] _stack;
 }
 
 void skip_list::remove_node(skip_list_node* node) {
