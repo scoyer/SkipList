@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <vector>
 #include <iostream>
+#include <time.h>
 
 class skip_list_node {
 public:
@@ -138,6 +139,7 @@ void skip_list::print() {
 		}
 		std::cout << std::endl;
 	}
+	std::cout << _level << std::endl;
 }
 
 void skip_list::remove_node(skip_list_node* node) {
@@ -177,6 +179,7 @@ void skip_list::remove(int _value) {
 }
 
 int main() {
+	//srand(time(0));
 	skip_list* list = new skip_list();
 	list->insert(5);
 	list->print();
@@ -195,5 +198,9 @@ int main() {
 	list->print();
 	list->remove(5);
 	list->print();
+//	for (int i = 0; i < 10000; i++) {
+//		list->insert(i);
+//	}
+//	list->print();
 	return 0;
 }
